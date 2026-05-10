@@ -1704,7 +1704,7 @@
     <div class="container hero-content">
 
       <!-- Level 1 — SUPERSKILLS, dominant -->
-      <h1 class="reveal reveal-delay-1"><span class="gradient-text">SuperSkills</span></h1>
+      <h1><span class="gradient-text">SuperSkills</span></h1>
 
       <!-- Level 2 — bold claim -->
       <p class="hero-kicker hero-kicker-stagger">יש Skills. ויש סופר-סקילס.</p>
@@ -2376,7 +2376,8 @@
         }).join('');
       };
 
-      // Start from scrambled text so users don't see clean title before effect
+      // Hide h1 immediately; scramble animation is the sole reveal mechanism
+      h1.style.opacity = '0';
       span.textContent = makeRandomString(0);
       if (kicker) kicker.classList.remove('show');
       if (ctaWrap) ctaWrap.classList.remove('show');
@@ -2384,6 +2385,11 @@
       function scrambleReveal() {
         if (hasRun) return;
         hasRun = true;
+
+        // Fade h1 in over 400ms, then hold while text unscrambles
+        h1.style.transition = 'opacity 0.4s ease';
+        h1.style.opacity = '1';
+
         const start = performance.now();
         const len = original.length;
 
@@ -2411,13 +2417,13 @@
         requestAnimationFrame(frame);
       }
 
-      // Trigger on page load (IntersectionObserver for hero)
+      // Trigger immediately on page load (no threshold needed — h1 is always visible in hero)
       const obs = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
           scrambleReveal();
           obs.disconnect();
         }
-      }, { threshold: 0.5 });
+      }, { threshold: 0.1 });
       obs.observe(h1);
     })();
 
