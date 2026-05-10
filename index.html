@@ -75,7 +75,7 @@
 
     /* ---------- Reset ---------- */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
     body {
       font-family: 'Rubik', Arial, sans-serif;
@@ -1381,6 +1381,10 @@
     .install-step p {
       font-size: 0.92rem;
       line-height: 1.65;
+    }
+    /* Allows the pre/snippet inside a flex row to scroll instead of expand */
+    .install-step > div {
+      min-width: 0;
     }
     .install-alt-label {
       margin-top: var(--md);
