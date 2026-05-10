@@ -1,0 +1,2542 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 Claude Superskills — אִימפּרוּב</title>
+  <meta name="description" content="5 מצבי כוח שמשנים את האופן שבו אתם עובדים עם Claude. 2 פתוחים להורדה. 3 מחכים בפנים.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+
+  <style>
+    /* ============================================
+       AIMPROVE SUPERSKILLS — Design System
+       Based on Orbit CSS patterns + Aimprove brand
+       ============================================ */
+
+    :root {
+      /* Backgrounds — shifted to deep navy to match hero image */
+      --void:          #060d1f;
+      --dark:          #091223;
+      --surface:       #0f1c35;
+      --surface-hover: #162240;
+      --border:        #1e3152;
+
+      /* Aimprove Gold as primary accent */
+      --gold:          #FFD55A;
+      --gold-dim:      rgba(255, 213, 90, 0.13);
+      --gold-glow:     rgba(255, 213, 90, 0.37);
+      --gold-border:   rgba(255, 213, 90, 0.24);
+
+      /* Secondary accent — purple */
+      --purple:        #7c3aed;
+      --purple-dim:    rgba(124, 58, 237, 0.15);
+
+      /* Cyan keep for locked/neutral */
+      --cyan:          #00d4ff;
+      --cyan-dim:      rgba(0, 212, 255, 0.12);
+
+      /* Text */
+      --white:         #f1f5f9;
+      --dim:           #9aabc0;
+      --faint:         #475569;
+
+      /* Shadows — Orbit's exact formulas, swapped to gold */
+      --shadow-glow:   0 0 20px rgba(255, 215, 71, 0.12), 0 0 60px rgba(255, 215, 71, 0.04);
+      --shadow-card:   0 4px 24px rgba(0, 0, 0, 0.45);
+      --shadow-hover:  0 8px 40px rgba(0, 0, 0, 0.65);
+
+      /* Animation */
+      --ease-expo:     cubic-bezier(0.16, 1, 0.3, 1);
+      --fast:          150ms;
+      --normal:        250ms;
+      --slow:          500ms;
+
+      /* Spacing — Orbit's exact scale */
+      --xs:   4px;
+      --sm:   8px;
+      --md:   16px;
+      --lg:   24px;
+      --xl:   32px;
+      --2xl:  48px;
+      --3xl:  64px;
+      --4xl:  96px;
+      --5xl:  128px;
+
+      --radius-sm:   6px;
+      --radius-md:   12px;
+      --radius-lg:   16px;
+      --radius-xl:   24px;
+      --radius-full: 9999px;
+    }
+
+    /* ---------- Reset ---------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: 'Rubik', Arial, sans-serif;
+      background: var(--void);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      direction: rtl;
+      text-align: right;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* Mobile-first type scale — grows up */
+    h1 { font-size: 1.9rem; font-weight: 800; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.2rem; }
+
+    @media (min-width: 480px) {
+      h1 { font-size: 2.4rem; }
+      h2 { font-size: 1.9rem; }
+    }
+
+    @media (min-width: 768px) {
+      h1 { font-size: 3rem; }
+      h2 { font-size: 2.4rem; }
+    }
+
+    @media (min-width: 1024px) {
+      h1 { font-size: clamp(3rem, 5.5vw, 4rem); }
+      h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); }
+      h3 { font-size: 1.4rem; }
+    }
+
+    p { color: var(--dim); font-size: 1.05rem; line-height: 1.75; }
+    a { color: var(--gold); text-decoration: none; transition: color var(--fast) ease; }
+    a:hover { color: var(--white); }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ---------- Starfield ---------- */
+    #starfield {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .nebula-layer {
+      position: fixed;
+      inset: -12%;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(68px);
+      opacity: 0.2;
+      transform: translate3d(0,0,0);
+      will-change: transform, opacity;
+    }
+    .nebula-a {
+      background:
+        radial-gradient(58% 42% at 26% 28%, rgba(110, 88, 210, 0.26) 0%, rgba(110, 88, 210, 0.08) 36%, transparent 72%),
+        radial-gradient(44% 36% at 74% 72%, rgba(43, 97, 148, 0.2) 0%, rgba(43, 97, 148, 0.06) 34%, transparent 68%);
+      animation: nebulaFloatA 34s ease-in-out infinite alternate;
+    }
+    .nebula-b {
+      background:
+        radial-gradient(52% 40% at 72% 22%, rgba(255, 213, 90, 0.2) 0%, rgba(255, 213, 90, 0.06) 34%, transparent 70%);
+      animation: nebulaFloatB 42s ease-in-out infinite alternate;
+    }
+    .nebula-c {
+      background:
+        radial-gradient(50% 40% at 38% 78%, rgba(26, 52, 98, 0.32) 0%, rgba(26, 52, 98, 0.08) 36%, transparent 72%);
+      animation: nebulaFloatC 38s ease-in-out infinite alternate;
+    }
+    @keyframes nebulaFloatA {
+      0%   { transform: translate3d(-2%, 1%, 0) scale(1); }
+      100% { transform: translate3d(2%, -2%, 0) scale(1.04); }
+    }
+    @keyframes nebulaFloatB {
+      0%   { transform: translate3d(1%, -1.5%, 0) scale(1.02); opacity: 0.16; }
+      100% { transform: translate3d(-2%, 2.5%, 0) scale(1.08); opacity: 0.24; }
+    }
+    @keyframes nebulaFloatC {
+      0%   { transform: translate3d(0, 2%, 0) scale(1); }
+      100% { transform: translate3d(2%, -1.5%, 0) scale(1.06); }
+    }
+
+    /* ---------- Layout ---------- */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--md);
+    }
+
+    @media (min-width: 480px) {
+      .container { padding: 0 var(--lg); }
+    }
+
+    @media (min-width: 768px) {
+      .container { padding: 0 var(--xl); }
+    }
+
+    section {
+      position: relative;
+      z-index: 1;
+      padding: var(--3xl) 0;
+    }
+
+    /* ---------- Navigation — Mobile-first floating pill ---------- */
+    .nav {
+      position: fixed;
+      top: var(--sm);
+      right: var(--sm);
+      left: var(--sm);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sm) var(--md);
+      background: rgba(10, 14, 26, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      transition: background var(--normal) ease;
+    }
+
+    @media (min-width: 768px) {
+      .nav {
+        top: var(--md);
+        right: var(--md);
+        left: var(--md);
+        padding: var(--sm) var(--lg);
+      }
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--sm);
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--white);
+    }
+    .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+
+    /* Nav links — hidden on mobile, shown on desktop */
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: var(--lg);
+    }
+    .nav-links a {
+      color: var(--dim);
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color var(--fast) ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover { text-shadow: 0 0 10px rgba(255, 213, 90, 0.26); }
+    .nav-links a i { font-size: 0.95rem; }
+
+    @media (min-width: 768px) {
+      .nav-links { display: flex; }
+    }
+
+    .nav-cta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: #0a0e1a !important;
+      font-weight: 700 !important;
+      font-size: 0.82rem !important;
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      transition: all var(--normal) var(--ease-expo) !important;
+      box-shadow: 0 0 16px rgba(255,215,71,0.25);
+    }
+    .nav-cta-pill:hover {
+      background: #ffe566;
+      transform: translateY(-1px);
+      box-shadow: 0 0 28px rgba(255,215,71,0.4);
+      color: #0a0e1a !important;
+    }
+
+    /* Hamburger — shown on mobile, hidden on desktop */
+    .nav-hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--sm);
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 20px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all var(--normal) ease;
+      transform-origin: center;
+    }
+    .nav.open .nav-hamburger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav.open .nav-hamburger span:nth-child(2) { opacity: 0; transform: scaleX(0.4); }
+    .nav.open .nav-hamburger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    @media (min-width: 768px) {
+      .nav-hamburger { display: none; }
+    }
+
+    /* Mobile nav open state */
+    .nav.open .nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-top: var(--sm);
+      padding: var(--lg) var(--md);
+      gap: var(--md);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.7), 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .nav.open .nav-links a {
+      font-size: 1rem;
+      padding: var(--sm) 0;
+      color: var(--white);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav.open .nav-links li:last-child a { border-bottom: none; }
+    .nav.open .nav-cta-pill {
+      width: 100%;
+      justify-content: center;
+      margin-top: var(--xs);
+      padding: 12px;
+      font-size: 0.95rem !important;
+    }
+
+    /* ---------- Hero — mobile-first ---------- */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 72px;
+      padding-bottom: var(--xl);
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px;
+      height: 300px;
+      background: radial-gradient(ellipse,
+        rgba(255,215,71,0.07) 0%,
+        rgba(124,58,237,0.05) 40%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    @media (min-width: 768px) {
+      .hero { min-height: 100svh; padding-top: 90px; padding-bottom: var(--3xl); }
+      .hero::before { width: 700px; height: 500px; }
+    }
+
+    .hero-bg-image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse at center, black 20%, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 72%);
+    }
+    .hero-bg-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.10;
+      display: block;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      padding: 0 var(--md);
+      text-align: center;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    /* Eyebrow — tiny label above the big heading */
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: rgba(255, 215, 71, 0.08);
+      border: 1px solid rgba(255, 215, 71, 0.18);
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255, 215, 71, 0.65);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: var(--md);
+    }
+    .hero-eyebrow i { font-size: 0.65rem; }
+
+    /* ── LEVEL 1: SuperSkills — the brand name, massive ── */
+    .hero h1 {
+      margin-bottom: var(--md);
+      letter-spacing: -0.035em;
+      white-space: nowrap;
+      font-size: clamp(2.15rem, 11.3vw, 6.9rem);
+      line-height: 0.92;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+      display: inline-block;
+      width: auto;
+      max-width: calc(100vw - 2.2rem);
+      margin-inline: auto;
+      padding-inline: 0.15em; /* prevents edge clipping on first/last glyph */
+      direction: ltr;         /* keeps Latin heading centered in RTL layout */
+      unicode-bidi: isolate;
+      overflow: visible;
+    }
+
+    /* Gold gradient on the brand name */
+    /* ── ReactBits GradientText — flowing animated gradient on headings ──
+       Pattern: wide gradient (300%+) with continuous background-position animation.
+       Two palettes: gold-purple (hero/main) and gold-only (secondary).
+    ── */
+    @keyframes gradientTextFlow {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+    @keyframes gradientTextFlowGold {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    /* Static gold accent — no animation, just color */
+    .gold-accent {
+      color: var(--gold);
+      font-weight: inherit;
+    }
+
+    /* Gold-Purple-Gold — for primary hero text */
+    .flowing-gradient-hero {
+      background: linear-gradient(
+        to right,
+        #FFD747 0%,
+        #fff1a0 18%,
+        #c4a0ff 35%,
+        #9d70ff 50%,
+        #fff1a0 65%,
+        #FFD747 80%,
+        #FFE88A 100%
+      );
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientTextFlow 8s linear infinite;
+    }
+
+    /* Gold-only shimmer — for secondary elements */
+    .flowing-gradient-gold {
+      background: linear-gradient(
+        to right,
+        #FFB300 0%,
+        #FFD747 20%,
+        #FFF3A0 42%,
+        #FFD747 62%,
+        #FF9F00 80%,
+        #FFD747 100%
+      );
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientTextFlowGold 7s linear infinite;
+    }
+
+    .gradient-text {
+      background: linear-gradient(
+        to right,
+        #FFD747 0%,
+        #fff1a0 18%,
+        #c4a0ff 35%,
+        #9d70ff 50%,
+        #fff1a0 65%,
+        #FFD747 80%,
+        #FFE88A 100%
+      );
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter:
+        drop-shadow(0 0 10px rgba(255, 215, 71, 0.4))
+        drop-shadow(0 0 28px rgba(180, 120, 255, 0.2))
+        drop-shadow(0 0 50px rgba(255, 215, 71, 0.14));
+      animation: gradientTextFlow 9s linear infinite;
+    }
+
+    /* ── LEVEL 2: Kicker — bold claim, clearly smaller ── */
+    .hero-kicker {
+      font-size: clamp(1.28rem, 3.9vw, 2.05rem);
+      font-weight: 700;
+      background: linear-gradient(170deg, #ffffff 0%, #e8deff 60%, #c8bfdc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter:
+        drop-shadow(0 0 3px rgba(255, 255, 255, 0.34))
+        drop-shadow(0 0 8px rgba(180, 160, 255, 0.18));
+      margin-bottom: var(--lg);
+      line-height: 1.32;
+      letter-spacing: 0em;
+      max-width: 790px;
+      text-wrap: balance;
+    }
+    .hero-kicker-stagger,
+    .hero-cta-stagger {
+      opacity: 0;
+      transform: translateY(34px) scale(0.95);
+      filter: blur(18px);
+      will-change: opacity, transform, filter;
+      transition:
+        opacity 1.32s cubic-bezier(0.17, 0.84, 0.3, 1),
+        transform 1.32s cubic-bezier(0.17, 0.84, 0.3, 1),
+        filter 1.32s cubic-bezier(0.17, 0.84, 0.3, 1);
+    }
+    .hero-kicker-stagger.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+    .hero-cta-stagger { pointer-events: none; }
+    .hero-cta-stagger.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+      pointer-events: auto;
+    }
+
+    /* Scroll cue — subtle mouse/dot at bottom of hero */
+
+    @media (min-width: 375px) {
+      .hero h1 { max-width: calc(100vw - 2.4rem); }
+    }
+
+    @media (min-width: 480px) {
+    }
+
+    @media (min-width: 768px) {
+      .hero h1 {
+        font-size: clamp(3.4rem, 10.2vw, 7.6rem);
+        max-width: calc(100vw - 5rem);
+      }
+      .hero-kicker {
+        font-size: clamp(1.45rem, 2.6vw, 2.2rem);
+        margin-bottom: var(--xl);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero h1 {
+        font-size: clamp(4.2rem, 8.3vw, 7.8rem);
+        max-width: 100%;
+      }
+      .hero-kicker { max-width: 820px; }
+    }
+
+    @media (min-width: 1440px) {
+      .hero h1 { font-size: 7.8rem; }
+      .hero-kicker { font-size: 2.2rem; }
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sm);
+      padding: 13px var(--lg);
+      border-radius: var(--radius-lg);
+      font-family: 'Rubik', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all var(--normal) var(--ease-expo);
+      border: none;
+      text-decoration: none;
+      min-height: 48px; /* comfortable touch target */
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), #f59e0b);
+      color: var(--void);
+      box-shadow: var(--shadow-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 26px rgba(255,215,71,0.24), 0 0 68px rgba(255,215,71,0.09);
+      color: var(--void);
+    }
+    .btn-primary:active { transform: translateY(0); box-shadow: 0 0 16px rgba(255,215,71,0.2); }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      color: var(--white);
+      box-shadow: 0 0 16px rgba(255,215,71,0.14);
+    }
+    .btn-secondary:active { transform: translateY(0); box-shadow: none; }
+
+    /* ---------- Section Header ---------- */
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--2xl);
+      padding: 0 var(--sm);
+    }
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: var(--md);
+      opacity: 0.85;
+    }
+    .section-header h2 {
+      margin-bottom: var(--lg);
+      text-shadow: 0 0 18px rgba(255, 215, 71, 0.18);
+      line-height: 1.2;
+    }
+    .section-header p {
+      margin: 0 auto;
+      max-width: 580px;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      opacity: 0.72;
+    }
+
+    @media (min-width: 768px) {
+      .section-header { margin-bottom: var(--3xl); }
+      .section-header p { font-size: 1.05rem; }
+    }
+
+    /* ── Skills section intro header ── */
+    .skills-intro-header {
+      text-align: center;
+      margin-bottom: var(--lg);
+      padding: 0 var(--sm);
+    }
+
+    @media (min-width: 640px) {
+      .skills-intro-header { margin-bottom: var(--2xl); }
+    }
+    .skills-intro-label {
+      display: inline-block;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--sm);
+      filter: drop-shadow(0 0 18px rgba(255, 215, 71, 0.4));
+    }
+    .skills-intro-title {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      margin-bottom: var(--md);
+      text-wrap: balance;
+      text-shadow: 0 0 40px rgba(255, 215, 71, 0.15);
+    }
+    .skills-intro-sub {
+      font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+      color: var(--dim);
+      margin: 0 auto;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    /* ---------- Bridge ---------- */
+    /* ── Bridge — pure typography, no card ── */
+    .bridge {
+      background: transparent;
+    }
+    #bridge {
+      padding-top: clamp(var(--3xl), 10vh, var(--5xl));
+      padding-bottom: clamp(var(--3xl), 10vh, var(--5xl));
+      text-align: center;
+    }
+
+    .bridge-text {
+      max-width: 740px;
+      margin: 0 auto;
+    }
+
+    /* Giant display number — the anchor of the whole statement */
+    .bridge-percent {
+      display: block;
+      font-size: clamp(5.5rem, 18vw, 12rem);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      /* flowing-gradient-gold applied via class */
+      filter: drop-shadow(0 0 32px rgba(255, 215, 71, 0.5))
+              drop-shadow(0 0 90px rgba(255, 165, 0, 0.22));
+      margin-bottom: 0.08em;
+    }
+
+    /* Bold claim beneath the number */
+    .bridge-claim {
+      font-size: clamp(1.65rem, 4.5vw, 3rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
+      margin: 0 0 0;
+      text-shadow: 0 2px 48px rgba(0, 0, 0, 0.55);
+    }
+
+    /* Stat wrap — custom reveal: scale + translateY */
+    .bridge-stat-wrap {
+      margin-bottom: var(--xl);
+    }
+    .bridge-stat-wrap.reveal {
+      transform: scale(0.88) translateY(28px);
+      transition: opacity 1s var(--ease-expo), transform 1s var(--ease-expo);
+    }
+    .bridge-stat-wrap.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Expanding gold divider line */
+    .bridge-divider {
+      width: 0;
+      height: 1px;
+      margin: var(--2xl) auto;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 71, 0.65), transparent);
+      transition: width 1.4s var(--ease-expo), opacity 0.8s ease;
+    }
+    .bridge-divider.reveal {
+      opacity: 0;
+      transform: none; /* override default reveal translateY */
+    }
+    .bridge-divider.visible {
+      opacity: 1;
+      width: min(280px, 65vw);
+      transform: none;
+    }
+
+    /* Body paragraphs */
+    .bridge-body {
+      font-size: clamp(1rem, 2vw, 1.12rem);
+      line-height: 1.9;
+      color: var(--dim);
+      max-width: 600px;
+      margin: 0 auto var(--md);
+      text-wrap: balance;
+    }
+    .bridge-body:last-child { margin-bottom: 0; }
+    .bridge-body strong { color: var(--white); font-weight: 700; }
+    .bridge-next-line {
+      font-size: clamp(1.4rem, 4vw, 2.5rem);
+      line-height: 1.24;
+      font-weight: 800;
+      max-width: 760px;
+      margin: var(--2xl) auto 0;
+      color: var(--white);
+      text-wrap: balance;
+      letter-spacing: -0.02em;
+      text-shadow: none;
+    }
+    .scroll-fade {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(4px);
+      transition:
+        opacity 550ms var(--ease-expo),
+        transform 550ms var(--ease-expo),
+        filter 550ms var(--ease-expo);
+      will-change: opacity, transform, filter;
+    }
+    .scroll-fade.in-view {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+    .scroll-fade-delay-1 { transition-delay: 100ms; }
+    .scroll-fade-delay-2 { transition-delay: 220ms; }
+
+    /* ---------- Image placeholder ---------- */
+    .img-placeholder {
+      width: 100%;
+      max-width: 800px;
+      margin: var(--lg) auto;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(255,215,71,0.25);
+      box-shadow: var(--shadow-card);
+      background: linear-gradient(135deg, var(--surface) 0%, #1a1535 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: var(--faint);
+      font-size: 0.82rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    .img-placeholder i { font-size: 2rem; color: rgba(255,215,71,0.2); }
+
+    .section-img-wrap {
+      width: 100%;
+      max-width: 860px;
+      margin: var(--xl) auto 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.7),
+        0 12px 30px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 215, 71, 0.15),
+        0 0 40px rgba(255, 215, 71, 0.12),
+        0 0 80px rgba(30, 80, 180, 0.18);
+    }
+    .section-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius-lg);
+    }
+    .img-placeholder-hero { height: 220px; }
+    .img-placeholder-mid  { height: 200px; }
+
+    @media (min-width: 768px) {
+      .img-placeholder-hero { height: 320px; }
+      .img-placeholder-mid  { height: 280px; }
+      .img-placeholder { margin: var(--xl) auto; }
+    }
+
+    @media (min-width: 1024px) {
+      .img-placeholder-hero { height: 380px; }
+      .img-placeholder-mid  { height: 300px; }
+    }
+
+    /* ---------- Skill Cards — 2-row layout ---------- */
+    .skills-open,
+    .skills-locked {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--md);
+      align-items: stretch;  /* equal height across all grid cells */
+    }
+    .skills-locked { margin-top: var(--md); }
+
+    /* Tablet: 2 columns for both rows */
+    @media (min-width: 640px) {
+      .skills-open  { grid-template-columns: repeat(2, 1fr); gap: var(--lg); }
+      .skills-locked { grid-template-columns: repeat(2, 1fr); gap: var(--lg); }
+    }
+
+    /* Desktop: open = 2 wide centered, locked = 3 columns */
+    @media (min-width: 1024px) {
+      .skills-open {
+        grid-template-columns: repeat(2, minmax(0, 460px));
+        justify-content: center;
+        gap: var(--xl);
+      }
+      .skills-locked {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--lg);
+        margin-top: var(--lg);
+      }
+    }
+
+    .skills-section-wrap {
+      margin-top: var(--xl);
+    }
+    @media (min-width: 1024px) {
+      .skills-section-wrap { margin-top: var(--2xl); }
+    }
+
+    /* ── Open card ── */
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid rgba(255, 215, 71, 0.16);
+      border-radius: var(--radius-lg);
+      padding: var(--lg);
+      transition: all var(--normal) var(--ease-expo);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: var(--md);
+    }
+
+    /* ── Locked card — teaser: visible but gated ── */
+    .skill-card.locked {
+      background: rgba(10, 14, 26, 0.72);
+      border-color: rgba(255, 215, 71, 0.18);
+      cursor: default;
+    }
+    .skill-card.locked:hover {
+      border-color: rgba(255, 215, 71, 0.32);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(255, 215, 71, 0.22),
+        0 0 28px rgba(255, 215, 71, 0.1);
+    }
+
+    @media (min-width: 768px) {
+      .skill-card { padding: var(--xl); }
+    }
+
+    /* Top accent line — only on open cards, visible always (not just hover) */
+    .skill-card:not(.locked)::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.6;
+    }
+    .skill-card:not(.locked):hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 215, 71, 0.38);
+      box-shadow:
+        var(--shadow-hover),
+        0 0 0 1px rgba(255, 215, 71, 0.28),
+        0 0 30px rgba(255, 215, 71, 0.14),
+        0 0 60px rgba(255, 215, 71, 0.07);
+    }
+    .skill-card:not(.locked):hover::before { opacity: 1; }
+
+    /* Unified gold accent — all cards */
+    .skill-card { --card-accent: var(--gold); }
+
+    /* ── Spotlight Card — radial glow follows cursor ── */
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        420px circle at var(--sx, 50%) var(--sy, 50%),
+        rgba(255, 215, 71, 0.18) 0%,
+        rgba(255, 215, 71, 0.06) 40%,
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .skill-card:hover::after { opacity: 1; }
+    .skill-card.locked:hover::after { opacity: 0.5; }
+    .skill-card > * { position: relative; z-index: 1; }
+
+    .glow-card-wrap {
+      position: relative;
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+    }
+    .glow-card-wrap .skill-card {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+
+    /* ══════════════════════════════════════════════════
+       PULSING ICON BOX — open cards get a slow heartbeat
+    ══════════════════════════════════════════════════ */
+    .glow-card-wrap .skill-icon-box {
+      animation: iconPulse 3.2s ease-in-out infinite;
+    }
+    @keyframes iconPulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 71, 0),
+                    0 0 8px rgba(255, 215, 71, 0.15);
+      }
+      50% {
+        box-shadow: 0 0 0 6px rgba(255, 215, 71, 0.08),
+                    0 0 22px rgba(255, 215, 71, 0.35);
+      }
+    }
+
+    /* prefers-reduced-motion — kill icon pulse */
+    @media (prefers-reduced-motion: reduce) {
+      .glow-card-wrap .skill-icon-box { animation: none; }
+    }
+
+    .skill-icon-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px; height: 44px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 215, 71, 0.08);
+      color: var(--gold);
+      font-size: 1.2rem;
+    }
+    /* Locked cards — visible but dimmer icon */
+    .skill-card.locked .skill-icon-box {
+      background: rgba(255, 215, 71, 0.07);
+      color: rgba(255, 215, 71, 0.55);
+    }
+
+    .skill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      align-self: flex-start;
+    }
+    .badge-open {
+      background: rgba(255, 215, 71, 0.1);
+      color: var(--gold);
+      border: 1px solid rgba(255, 215, 71, 0.22);
+    }
+    .badge-locked {
+      background: rgba(255, 215, 71, 0.08);
+      color: rgba(255, 215, 71, 0.72);
+      border: 1px solid rgba(255, 215, 71, 0.28);
+    }
+
+    /* Card title */
+    .skill-card h3 {
+      color: var(--white);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 2px;
+    }
+    .skill-card:not(.locked) h3 {
+      text-shadow: 0 0 14px rgba(255, 215, 71, 0.15);
+    }
+    .skill-card.locked h3 { color: var(--white); opacity: 0.82; }
+
+    /* Field blocks inside card */
+    .skill-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex: 1;
+    }
+    .skill-field {
+      padding: 10px 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .skill-field:first-child { border-top: none; padding-top: 0; }
+    .skill-field-label {
+      display: block;
+      font-size: 0.63rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 4px;
+      opacity: 0.75;
+    }
+    .skill-card.locked .skill-field-label {
+      color: var(--gold);
+      opacity: 0.55;
+    }
+    .skill-field p {
+      font-size: 0.86rem;
+      line-height: 1.6;
+      color: var(--dim);
+      max-width: none;
+    }
+    .skill-card.locked .skill-field p {
+      color: #b8c8d8;
+    }
+
+    .skill-action {
+      margin-top: auto;
+    }
+    .skill-action .btn {
+      width: 100%;
+      justify-content: center;
+      font-size: 0.88rem;
+      padding: 10px var(--lg);
+    }
+
+    .locked-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sm);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gold);
+      padding: var(--md) var(--lg);
+      border: 1px solid rgba(255, 215, 71, 0.3);
+      border-radius: var(--radius-md);
+      margin-top: auto;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(255, 215, 71, 0.06);
+      text-align: center;
+    }
+    .locked-footer:hover {
+      color: var(--white);
+      background: rgba(255, 215, 71, 0.14);
+      border-color: rgba(255, 215, 71, 0.5);
+      box-shadow: 0 0 18px rgba(255, 215, 71, 0.15);
+    }
+
+    /* ---------- Principles — mobile-first ---------- */
+    .principles {
+      background: linear-gradient(
+        180deg,
+        rgba(10, 14, 26, 0.58) 0%,
+        rgba(10, 14, 26, 0.48) 100%
+      );
+    }
+
+    .principles-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--2xl);
+      align-items: center;
+      margin-top: var(--xl);
+    }
+
+    @media (min-width: 1024px) {
+      .principles-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--3xl);
+        margin-top: var(--2xl);
+      }
+    }
+
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--lg);
+      padding: var(--lg) 0;
+      position: relative;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 17px;
+      top: calc(var(--md) + 36px);
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    /* On mobile, hide the connecting line (too tight) */
+    @media (max-width: 479px) {
+      .flow-step:not(:last-child)::after { display: none; }
+    }
+
+    .flow-step-number {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .flow-step-content h4 {
+      color: var(--white);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .flow-step-content p {
+      font-size: 0.92rem;
+      color: var(--dim);
+      max-width: none;
+      line-height: 1.65;
+    }
+
+    /* ---------- Training CTA ---------- */
+    /* ── Training CTA — Cinematic Pitch ────────────────────────────
+       No flat card. Centered type on a dramatic cosmic backdrop.
+       H2 gets the flowing gradient. Bullets become proof-points.
+    ────────────────────────────────────────────────────────────── */
+    .training-cta {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Dramatic radial glow — purple-gold spotlight behind content */
+    .training-cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(900px, 130vw);
+      height: min(700px, 100vw);
+      background: radial-gradient(
+        ellipse at center,
+        rgba(130, 60, 240, 0.18) 0%,
+        rgba(255, 215, 71, 0.07) 42%,
+        transparent 72%
+      );
+      pointer-events: none;
+    }
+    .training-cta-inner {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+      overflow: visible;
+    }
+
+    /* Eyebrow label */
+    .training-eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: var(--lg);
+      filter: drop-shadow(0 0 12px rgba(255,215,71,0.5));
+    }
+
+    /* Main headline — BIG */
+    .training-cta h2 {
+      font-size: clamp(2rem, 5.5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+      margin-bottom: var(--lg);
+    }
+
+    /* Tagline */
+    .training-cta > .container > .training-cta-inner > p {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      color: var(--dim);
+      margin-bottom: var(--2xl);
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.75;
+    }
+
+    /* Proof-point bullets */
+    .training-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--2xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--lg);
+      text-align: right;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .training-bullets li {
+      font-size: clamp(1rem, 2vw, 1.12rem);
+      color: var(--white);
+      padding-right: 2em;
+      position: relative;
+      line-height: 1.65;
+      opacity: 0.92;
+    }
+    .training-bullets li::before {
+      content: '✦';
+      position: absolute;
+      right: 0;
+      color: var(--gold);
+      font-size: 0.85em;
+      top: 0.18em;
+      filter: drop-shadow(0 0 6px rgba(255,215,71,0.7));
+    }
+
+    /* CTA button — full width, dramatic */
+    .training-cta .btn {
+      width: 100%;
+      max-width: 380px;
+      justify-content: center;
+      font-size: 1rem;
+      padding: 16px 28px;
+    }
+    @media (min-width: 768px) {
+      .training-cta .btn { font-size: 1.05rem; padding: 18px 36px; }
+    }
+
+    /* ---------- Install Section ---------- */
+    .install-section {
+      background: linear-gradient(
+        180deg,
+        rgba(10, 14, 26, 0.6) 0%,
+        rgba(10, 14, 26, 0.5) 100%
+      );
+    }
+    .install-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--lg);
+      max-width: 680px;
+      margin: var(--lg) auto 0;
+    }
+    .install-step {
+      display: flex;
+      gap: var(--md);
+      align-items: flex-start;
+      padding: var(--lg) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    @media (min-width: 768px) {
+      .install-block { padding: var(--xl); margin-top: var(--xl); }
+      .install-step { gap: var(--lg); padding: var(--xl) 0; }
+    }
+    .install-step:last-child { border-bottom: none; }
+    .install-step-number {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .install-step h4 {
+      font-size: 1.05rem;
+      margin-bottom: var(--sm);
+      color: var(--white);
+    }
+    .install-step p {
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+    code {
+      font-family: 'Space Mono', 'Courier New', monospace;
+      color: var(--gold);
+      font-size: 0.85em;
+      background: rgba(255,215,71,0.08);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* ---------- FAQ — Orbit's <details> pattern ---------- */
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--md);
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color var(--fast) ease;
+    }
+    .faq-item:hover { border-color: var(--gold-border); }
+
+    .faq-summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--white);
+      padding: var(--lg) var(--lg);
+      min-height: 58px;
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      direction: rtl;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--md);
+      font-family: 'Rubik', sans-serif;
+    }
+    .faq-summary::-webkit-details-marker { display: none; }
+    .faq-summary::after {
+      content: '+';
+      font-size: 1.3rem;
+      color: var(--gold);
+      flex-shrink: 0;
+      line-height: 1;
+      transition: transform var(--normal) ease;
+    }
+    details[open] .faq-summary::after { content: '−'; }
+    .faq-answer {
+      padding: var(--xs) var(--lg) var(--xl);
+      font-size: 0.95rem;
+      color: var(--dim);
+      line-height: 1.8;
+    }
+    .faq-cta-link {
+      display: inline-flex;
+      margin-top: var(--xs);
+      color: var(--gold);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .faq-cta-link:hover {
+      color: #ffe58f;
+      text-shadow: 0 0 10px rgba(255, 213, 90, 0.24);
+    }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: var(--xl) var(--md);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sm);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: var(--md);
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--md);
+      margin-bottom: var(--lg);
+    }
+    .footer-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--dim);
+      font-size: 0.88rem;
+      font-weight: 500;
+      min-height: 44px;
+      align-items: center;
+    }
+    .footer-links a:hover {
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(255, 213, 90, 0.24);
+    }
+    .footer p { font-size: 0.82rem; color: var(--faint); max-width: none; margin: 0 auto; }
+
+    /* ---------- Scroll Reveal — Orbit's exact ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.14s; }
+    .reveal-delay-2 { transition-delay: 0.30s; }
+    .reveal-delay-3 { transition-delay: 0.48s; }
+    .reveal-delay-4 { transition-delay: 0.66s; }
+    .reveal-delay-5 { transition-delay: 0.84s; }
+    .reveal-delay-6 { transition-delay: 1.02s; }
+    .reveal-delay-7 { transition-delay: 1.20s; }
+
+    /* Skill cards — slow cinematic reveal */
+    .skill-card.reveal {
+      transform: translateY(48px);
+      transition: opacity 1.1s var(--ease-expo), transform 1.1s var(--ease-expo);
+    }
+    .glow-card-wrap:nth-child(1) .skill-card { transition-delay: 0s; }
+    .glow-card-wrap:nth-child(2) .skill-card { transition-delay: 0.28s; }
+    .skills-locked .skill-card.reveal         { transition-delay: 0s; }
+    .skills-locked .skill-card.reveal-delay-1  { transition-delay: 0.22s; }
+    .skills-locked .skill-card.reveal-delay-2  { transition-delay: 0.44s; }
+
+    /* ---------- Section padding — generous breathing room ---------- */
+    section { padding: var(--3xl) 0; }
+
+    @media (min-width: 640px) {
+      section { padding: var(--4xl) 0; }
+    }
+
+    @media (min-width: 1024px) {
+      section { padding: clamp(var(--4xl), 10vh, var(--5xl)) 0; }
+    }
+
+    /* Subtle gold hairline separator between major sections */
+    section + section:not(.hero):not(.bridge) {
+      border-top: 1px solid rgba(255, 215, 71, 0.06);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+      .scroll-fade {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .nebula-layer { animation: none !important; }
+      .gradient-text,
+      .flowing-gradient-hero,
+      .flowing-gradient-gold { animation: none !important; }
+    }
+
+    /* ══════════════════════════════════════════════════
+       MOBILE FIRST — Explicit small-screen overrides
+       Ensures readability and usability at 375px+
+    ══════════════════════════════════════════════════ */
+
+    /* Hero — give more breathing room at the bottom */
+    .hero {
+      padding-bottom: var(--2xl);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 11vw, 6.9rem);
+    }
+    .hero-kicker {
+      font-size: clamp(1.1rem, 4vw, 2.05rem);
+      padding: 0 var(--sm);
+    }
+
+    /* Bridge — reduce very large spacing on tiny screens */
+    #bridge {
+      padding-top: clamp(var(--2xl), 8vh, var(--5xl));
+      padding-bottom: clamp(var(--2xl), 8vh, var(--5xl));
+    }
+    .bridge-percent {
+      font-size: clamp(4.5rem, 18vw, 12rem);
+    }
+    .bridge-claim {
+      font-size: clamp(1.45rem, 4vw, 3rem);
+    }
+
+    /* Skills — tighten gap on mobile */
+    .skills-open,
+    .skills-locked {
+      gap: var(--sm);
+    }
+    @media (min-width: 480px) {
+      .skills-open, .skills-locked { gap: var(--md); }
+    }
+    @media (min-width: 640px) {
+      .skills-open, .skills-locked { gap: var(--lg); }
+    }
+
+    /* Skill cards — tighter padding on small phones */
+    .skill-card {
+      padding: var(--md);
+    }
+    @media (min-width: 480px) {
+      .skill-card { padding: var(--lg); }
+    }
+
+    /* Training bullets — ensure proper RTL alignment on mobile */
+    .training-bullets {
+      padding-right: 0;
+      padding-left: 0;
+    }
+    .training-bullets li {
+      font-size: clamp(0.95rem, 2.5vw, 1.12rem);
+    }
+
+    /* Section header — tighter on mobile */
+    .section-header h2 {
+      font-size: clamp(1.4rem, 5vw, 2.8rem);
+    }
+
+    /* FAQ — full width on tiny screens */
+    .faq-item {
+      border-radius: var(--radius-md);
+    }
+    .faq-summary {
+      padding: var(--md) var(--md);
+      font-size: 0.95rem;
+    }
+    @media (min-width: 480px) {
+      .faq-summary { padding: var(--lg) var(--lg); font-size: 1rem; }
+    }
+    .faq-answer {
+      padding: var(--xs) var(--md) var(--lg);
+    }
+    @media (min-width: 480px) {
+      .faq-answer { padding: var(--xs) var(--lg) var(--xl); }
+    }
+
+    /* Install block — full edge-to-edge feel on tiny screens */
+    .install-block {
+      margin-right: 0;
+      margin-left: 0;
+    }
+    @media (min-width: 480px) {
+      .install-block { margin: var(--lg) auto 0; }
+    }
+
+    /* Training CTA h2 — more readable on mobile */
+    .training-cta h2 {
+      font-size: clamp(1.65rem, 5.5vw, 3.8rem);
+    }
+
+    /* Principles flow steps — less gap on mobile */
+    .principles-layout {
+      gap: var(--xl);
+      margin-top: var(--md);
+    }
+    @media (min-width: 640px) {
+      .principles-layout { gap: var(--2xl); margin-top: var(--xl); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Starfield — Orbit's actual canvas -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="nebula-layer nebula-a" aria-hidden="true"></div>
+  <div class="nebula-layer nebula-b" aria-hidden="true"></div>
+  <div class="nebula-layer nebula-c" aria-hidden="true"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="main-nav">
+    <a href="https://aimprove.co.il/home-page/" class="nav-logo" aria-label="אִימפּרוּב">
+      <img src="mascot.png" height="28" width="28" alt="aimprove mascot" style="object-fit:contain;">
+      אִימפּרוּב
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#skills"><i class="ph-bold ph-lightning"></i> סקילים</a></li>
+      <li><a href="#principles"><i class="ph-bold ph-compass"></i> איך זה עובד</a></li>
+      <li><a href="#install"><i class="ph-bold ph-terminal-window"></i> התקנה</a></li>
+      <li><a href="#faq"><i class="ph-bold ph-question"></i> שאלות</a></li>
+      <li>
+        <a href="https://wa.me/972515079762?text=אני רוצה לבדוק התאמה לתוכנית אייגנטים"
+           class="nav-cta-pill" target="_blank" rel="noopener">
+          <i class="ph-bold ph-rocket-launch"></i> לטירונות סוכנים
+        </a>
+      </li>
+    </ul>
+
+    <button class="nav-hamburger" id="hamburger" aria-label="פתח תפריט">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <!-- Hero background image — disabled -->
+    <!-- <picture class="hero-bg-image" aria-hidden="true">
+      <source media="(min-width: 768px)" srcset="hero-desktop.png">
+      <img src="hero-mobile.png" alt="">
+    </picture> -->
+
+    <div class="container hero-content">
+
+      <!-- Level 1 — SUPERSKILLS, dominant -->
+      <h1 class="reveal reveal-delay-1"><span class="gradient-text">SuperSkills</span></h1>
+
+      <!-- Level 2 — bold claim -->
+      <p class="hero-kicker hero-kicker-stagger">יש Skills. ויש סופר-סקילס.</p>
+
+    </div>
+
+    <!-- Scroll cue — anchored to bottom of hero, outside content flow -->
+  </section>
+
+  <!-- ===== BRIDGE ===== -->
+  <section class="bridge" id="bridge">
+    <div class="container">
+      <div class="bridge-text">
+
+        <!-- Giant stat + bold claim — enters with scale+fade -->
+        <div class="bridge-stat-wrap reveal">
+          <span class="bridge-percent flowing-gradient-gold">99%</span>
+          <h2 class="bridge-claim">מהסקילס ברשת הם זבל.</h2>
+        </div>
+
+        <!-- Expanding gold line -->
+        <div class="bridge-divider reveal reveal-delay-2" aria-hidden="true"></div>
+
+        <!-- Body — scroll fade in/out -->
+        <p class="bridge-body scroll-fade scroll-fade-delay-1">הרשת מלאה בסקילים שנשמעים חכמים, אבל בפועל לא עושים הרבה.</p>
+        <h2 class="bridge-next-line scroll-fade scroll-fade-delay-2">אז פיתחנו חמישה <span class="gold-accent">SuperSkills</span> שהופכים את קלוד לסופר־על.</h2>
+
+        <!-- Main visual moved here so this stays one unified section -->
+        <div class="section-img-wrap reveal reveal-delay-3">
+          <picture>
+            <source media="(min-width: 768px)" srcset="bridge-desktop.png">
+            <img src="bridge-square.png" alt="SuperSkills — 5 מצבי כוח לקלוד" class="section-img">
+          </picture>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5 SKILL CARDS ===== -->
+  <section class="bridge" id="skills" style="padding-top: clamp(var(--3xl), 8vh, var(--5xl))">
+    <div class="container">
+
+      <!-- Section intro — arrived at the skills -->
+      <div class="skills-intro-header reveal">
+        <p class="skills-intro-label">הסקילס</p>
+      </div>
+
+      <div class="skills-section-wrap">
+      <!-- ── OPEN SKILLS ── -->
+      <div class="skills-open">
+
+        <!-- GOD Mode — OPEN -->
+        <div class="glow-card-wrap">
+        <div class="skill-card reveal reveal-delay-1" data-skill="god">
+          <div class="skill-icon-box"><i class="ph-bold ph-brain"></i></div>
+          <span class="skill-badge badge-open">
+            <i class="ph-bold ph-download-simple"></i> פתוח להורדה
+          </span>
+          <h3>GOD Mode</h3>
+          <div class="skill-fields">
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה</span>
+              <p>מפעיל ב-Claude את מצב החשיבה הגבוה ביותר שלו. הוא מפסיק לענות ומתחיל לחשוב — מושך ידע מכל כיוון, מחבר דברים שלא היו מחוברים, ומגיע לתובנות שאתם לא הייתם מגיעים אליהם לבד. לא תשובה — גילוי.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מתי להפעיל</span>
+              <p>כשצריך פריצת דרך, לא עוד תשובה טובה.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה עושה בפועל</span>
+              <p>כשתכננתי את ההשקה של "טירונות סוכנים" הסקיל נתן לי פיצוח מטורף שלא הייתי מגיעה אליו לבד גם אחרי שבוע של חשיבה.</p>
+            </div>
+          </div>
+          <div class="skill-action">
+            <a href="god-mode-skill.md" download="GOD Mode SKILL.md" class="btn btn-primary">
+              <i class="ph-bold ph-download-simple"></i> להוריד עכשיו את GOD Mode
+            </a>
+          </div>
+        </div>
+
+        </div><!-- /glow-card-wrap GOD -->
+
+        <!-- CIA Mode — OPEN -->
+        <div class="glow-card-wrap">
+        <div class="skill-card reveal reveal-delay-2" data-skill="cia">
+          <div class="skill-icon-box"><i class="ph-bold ph-eye"></i></div>
+          <span class="skill-badge badge-open">
+            <i class="ph-bold ph-download-simple"></i> פתוח להורדה
+          </span>
+          <h3>CIA Mode</h3>
+          <div class="skill-fields">
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה</span>
+              <p>נותן ל-Claude את היכולת לקרוא אנשים. מה באמת מניע אותם, ממה הם מפחדים, מה הם לא אומרים ולמה. כל סיטואציה שיש בה אנשים — הוא חושף את מה שמתחת לפני השטח.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מתי להפעיל</span>
+              <p>כשאתם רוצים לחשוף את המניעים האמיתיים או להבין את ההתנהגות של אנשים סביבכם.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה עושה בפועל</span>
+              <p>לקוחה נעלמה לי באמצע תהליך. הסקיל פירק לי שהיא כנראה לא יודעת איך להגיד לא — ונתן לי משפט אחד מדויק לשלוח. תוך שעה היא חזרה עם "כן."</p>
+            </div>
+          </div>
+          <div class="skill-action">
+            <a href="cia-agent-skill.md" download="CIA Agent SKILL.md" class="btn btn-primary">
+              <i class="ph-bold ph-download-simple"></i> להוריד עכשיו את CIA Mode
+            </a>
+          </div>
+        </div>
+        </div><!-- /glow-card-wrap CIA -->
+
+      </div><!-- /skills-open -->
+
+      <!-- ── LOCKED SKILLS ── -->
+      <div class="skills-locked">
+
+        <!-- Negotiation — LOCKED -->
+        <div class="skill-card locked reveal reveal-delay-3" data-skill="neg">
+          <div class="skill-icon-box"><i class="ph-bold ph-handshake"></i></div>
+          <span class="skill-badge badge-locked">
+            <i class="ph-bold ph-lock-simple"></i> נפתח בטירונות סוכנים
+          </span>
+          <h3>Negotiation</h3>
+          <div class="skill-fields">
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה</span>
+              <p>הופך את Claude ליועץ המו"מ שיושב לך על הכתף בפגישה. מילים מדויקות. משפט פתיחה, שאלה שפותחת את הצד השני, תגובה ל"לא", והצעה שהוא לא ציפה לה.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מתי להפעיל</span>
+              <p>לפני כל מו"מ — מחיר, שכר, שותפות, עסקה, לקוח קשה.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה עושה בפועל</span>
+              <p>ספק רצה להעלות מחיר ב-30%. הסקיל הכין אותי לפגישה — ובמקום 30%, סגרתי על 10%.</p>
+            </div>
+          </div>
+          <div class="locked-footer">
+            <i class="ph-bold ph-lock-simple"></i>
+            <span>רוצה גישה? הצטרף לטירונות</span>
+          </div>
+        </div>
+
+        <!-- Reverse Engineer — LOCKED -->
+        <div class="skill-card locked reveal reveal-delay-1" data-skill="rev">
+          <div class="skill-icon-box"><i class="ph-bold ph-magnifying-glass"></i></div>
+          <span class="skill-badge badge-locked">
+            <i class="ph-bold ph-lock-simple"></i> נפתח בטירונות סוכנים
+          </span>
+          <h3>Reverse Engineer</h3>
+          <div class="skill-fields">
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה</span>
+              <p>נותן ל-Claude רנטגן לדברים שעובדים. מודעה, פוסט, דף מכירה — הוא רואה דרך הביצוע ומגיע לעקרון שמתחת. ואז מראה איך העיקרון הזה נראה אצלכם.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מתי להפעיל</span>
+              <p>כשרואים משהו מצליח ורוצים להבין למה — ולגנוב את הנוסחה.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה עושה בפועל</span>
+              <p>כל פעם שאני רואה מודעה או פוסט שעובד — אני מריצה אותו דרך הסקיל. הוא מחלץ לי את העקרונות ונותן לי ניסוח מותאם שאני יכולה להשתמש בו באותו יום.</p>
+            </div>
+          </div>
+          <div class="locked-footer">
+            <i class="ph-bold ph-lock-simple"></i>
+            <span>רוצה גישה? הצטרף לטירונות</span>
+          </div>
+        </div>
+
+        <!-- First Principles — LOCKED -->
+        <div class="skill-card locked reveal reveal-delay-2" data-skill="fp">
+          <div class="skill-icon-box"><i class="ph-bold ph-atom"></i></div>
+          <span class="skill-badge badge-locked">
+            <i class="ph-bold ph-lock-simple"></i> נפתח בטירונות סוכנים
+          </span>
+          <h3>First Principles</h3>
+          <div class="skill-fields">
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה</span>
+              <p>מפעיל ב-Claude את מצב "למה בעצם?" במקום לתת תשובה טובה יותר — בודק אם אתם בכלל שואלים את השאלה הנכונה. שואל "למה" עד שמגיע לגרעין, ובונה מחדש רק ממה ששרד.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מתי להפעיל</span>
+              <p>כשתקועים, כשעושים את אותו דבר כל פעם, כשמרגישים שמשהו שבור אבל לא ברור מה.</p>
+            </div>
+            <div class="skill-field">
+              <span class="skill-field-label">מה זה עושה בפועל</span>
+              <p>הייתי בפלונטר עסקי, בטוחה שאני יודעת מה הבעיה — והסקיל הראה לי שאני פותרת את הבעיה הלא נכונה. ברגע שהבנתי מה הבעיה האמיתית — הפתרון היה פשוט ומהיר.</p>
+            </div>
+          </div>
+          <div class="locked-footer">
+            <i class="ph-bold ph-lock-simple"></i>
+            <span>רוצה גישה? הצטרף לטירונות</span>
+          </div>
+        </div>
+
+      </div><!-- /skills-locked -->
+
+      </div><!-- /skills-section-wrap -->
+    </div>
+  </section>
+
+  <!-- ===== TRAINING CTA ===== -->
+  <section class="training-cta" id="training">
+    <div class="container">
+      <div class="training-cta-inner">
+
+        <h2 class="flowing-gradient-hero reveal">
+          5 הסקילים האלה הם טעימה ממה שמחכה לכם בטירונות סוכנים
+        </h2>
+
+        <p class="reveal reveal-delay-2">תוכנית לאנשים שכבר שוחים ב-AI — ורוצים לצלול לעומק.</p>
+
+        <ul class="training-bullets">
+          <li class="reveal reveal-delay-3">אחרי הטירונות תדעו לבנות כל מערכת שתרצו: סוכן, אוטומציה, מערכת, ממשק — מה שבא לכם.</li>
+          <li class="reveal reveal-delay-4">תראו סרטונים ברשת של אחרים שמראים מה הם בנו, ותגידו לעצמכם: ״וואו, גם אני יודע לבנות את זה״.</li>
+          <li class="reveal reveal-delay-5">זו שליטה מלאה באקוסיסטם של Claude — לבנות מה שתרצו, מתי שתרצו.</li>
+        </ul>
+
+        <a href="https://wa.me/972515079762?text=אני רוצה לבדוק התאמה לתוכנית אייגנטים"
+           class="btn btn-primary reveal reveal-delay-6" target="_blank" rel="noopener">
+          <i class="ph-bold ph-whatsapp-logo"></i>
+          אני רוצה לבדוק התאמה לטירונות
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4 PRINCIPLES ===== -->
+  <section class="principles" id="principles">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>מה <span class="gold-accent">SuperSkill</span> של אִימפּרוּב עושה אחרת</h2>
+      </div>
+
+      <div class="principles-layout">
+
+        <div class="flow-steps">
+          <div class="flow-step reveal reveal-delay-1">
+            <div class="flow-step-number">1</div>
+            <div class="flow-step-content">
+              <h4>הוראה, לא תואר</h4>
+              <p>לא אומר לו "אתה מומחה." נותן לו הוראות מדויקות.</p>
+            </div>
+          </div>
+          <div class="flow-step reveal reveal-delay-2">
+            <div class="flow-step-number">2</div>
+            <div class="flow-step-content">
+              <h4>כנות, לא חנופה</h4>
+              <p>מכריח אותו לא להתחנף ולהגיד אמת.</p>
+            </div>
+          </div>
+          <div class="flow-step reveal reveal-delay-3">
+            <div class="flow-step-number">3</div>
+            <div class="flow-step-content">
+              <h4>כיול, לא חפירה</h4>
+              <p>שאלה קצרה = תשובה קצרה.</p>
+            </div>
+          </div>
+          <div class="flow-step reveal reveal-delay-4">
+            <div class="flow-step-number">4</div>
+            <div class="flow-step-content">
+              <h4>ריסון, לא הפעלה בכוח</h4>
+              <p>יודע מתי לא צריך אותו — ועוצר בעצמו.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle image -->
+        <div class="section-img-wrap reveal reveal-delay-2">
+          <picture>
+            <source media="(min-width: 768px)" srcset="principles-desktop.png">
+            <img src="principles-mobile.jpg" alt="SuperSkill של אִימפּרוּב" class="section-img">
+          </picture>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INSTALL ===== -->
+  <section class="install-section" id="install">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">התקנה</span>
+        <h2>להתחיל תוך 2 דקות</h2>
+      </div>
+
+      <div class="install-block">
+        <div class="install-step reveal reveal-delay-1">
+          <div class="install-step-number">1</div>
+          <div>
+            <h4>הורידו את קובץ ה-Skill</h4>
+            <p>לחצו על כפתור ה-Download בכרטיס הרצוי.</p>
+          </div>
+        </div>
+        <div class="install-step reveal reveal-delay-3">
+          <div class="install-step-number">2</div>
+          <div>
+            <h4>היכנסו להגדרות Claude</h4>
+            <p><code>Settings</code> ← <code>Capabilities</code> ← <code>Skills</code> (בתחתית הדף).</p>
+          </div>
+        </div>
+        <div class="install-step reveal reveal-delay-5">
+          <div class="install-step-number">3</div>
+          <div>
+            <h4>הוסיפו את ה-Skill</h4>
+            <p>לחצו <code>Add Skill</code> ← <code>Upload Skill</code> והעלו את הקובץ שהורדתם.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>שאלות נפוצות</h2>
+      </div>
+
+      <div class="faq-list">
+
+        <details class="faq-item reveal reveal-delay-1">
+          <summary class="faq-summary">מה מקבלים פה בחינם?</summary>
+          <div class="faq-answer">שני סקילים פתוחים להורדה: GOD Mode ו-CIA Mode.</div>
+        </details>
+
+        <details class="faq-item reveal reveal-delay-2">
+          <summary class="faq-summary">למה שלושה סקילים נעולים?</summary>
+          <div class="faq-answer">כי הם חלק מהספרייה המלאה שנפתחת בתוך טירונות סוכנים.<br><a href="https://wa.me/972515079762?text=אני רוצה לבדוק התאמה לתוכנית אייגנטים" class="faq-cta-link" target="_blank" rel="noopener">להגשת מועמדות לתוכנית</a></div>
+        </details>
+
+        <details class="faq-item reveal reveal-delay-3">
+          <summary class="faq-summary">הסקילים מתאימים רק למי שטכני?</summary>
+          <div class="faq-answer">לא. הם מתאימים למי שכבר עובד עם AI ורוצה לעבוד יותר מדויק, יותר חכם, ובלי ליפול על שטויות מהרשת.</div>
+        </details>
+
+        <details class="faq-item reveal reveal-delay-4">
+          <summary class="faq-summary">מה ההבדל בין סקיל טוב לסקיל זבל?</summary>
+          <div class="faq-answer">
+            סקיל זבל נשמע מרשים — אבל בפועל לא משנה כלום.<br>
+            סקיל טוב משנה את איך שהמודל עובד.<br><br>
+            <span class="gold-accent">SuperSkill</span> של אִימפּרוּב? בנוי על שיטה שנבדקה עם מאות אנשים — ואפשר להרגיש את ההבדל כבר בשיחה הראשונה.
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <img src="mascot.png" height="26" width="26" alt="aimprove mascot" style="object-fit:contain;">
+      אִימפּרוּב
+    </div>
+    <div class="footer-links">
+      <a href="https://aimprove.co.il/home-page/" target="_blank" rel="noopener">
+        <i class="ph-bold ph-globe"></i> aimprove.co.il
+      </a>
+      <a href="https://wa.me/972515079762?text=אני רוצה לבדוק התאמה לתוכנית אייגנטים" target="_blank" rel="noopener">
+        <i class="ph-bold ph-whatsapp-logo"></i> צרו קשר
+      </a>
+    </div>
+  </footer>
+
+
+  <!-- ===== JAVASCRIPT — Orbit's exact patterns ===== -->
+  <script>
+    // ---------- Starfield — layered parallax + rare meteors ----------
+    (function initStarfield() {
+      const canvas = document.getElementById('starfield');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      let meteors = [];
+      let nextMeteorAt = 0;
+      let parallaxTarget = 0;
+      let parallaxCurrent = 0;
+      let animationId = null;
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      // Draw a 4-point sparkle (cross shape)
+      function drawSparkle(x, y, size, alpha) {
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.lineWidth = size * 0.3;
+        ctx.lineCap = 'round';
+        const long = size;
+        const short = size * 0.35;
+        ctx.beginPath();
+        ctx.moveTo(x, y - long); ctx.lineTo(x, y + long);
+        ctx.moveTo(x - long, y); ctx.lineTo(x + long, y);
+        ctx.moveTo(x - short, y - short); ctx.lineTo(x + short, y + short);
+        ctx.moveTo(x + short, y - short); ctx.lineTo(x - short, y + short);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function createStars() {
+        stars = [];
+        const area = canvas.width * canvas.height;
+        const totals = reduced
+          ? { far: Math.floor(area / 10500), mid: Math.floor(area / 16000), near: Math.floor(area / 28000) }
+          : { far: Math.floor(area / 7800), mid: Math.floor(area / 11800), near: Math.floor(area / 21000) };
+
+        function pushStar(layer) {
+          const typeRand = Math.random();
+          const isSparkle = layer === 'near' && typeRand > 0.72;
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            layer,
+            parallax: layer === 'far' ? 0.06 : layer === 'mid' ? 0.12 : 0.2,
+            kind: isSparkle ? 'sparkle' : 'dot',
+            radius:
+              layer === 'far' ? Math.random() * 0.8 + 0.25 :
+              layer === 'mid' ? Math.random() * 1.2 + 0.45 :
+              isSparkle ? Math.random() * 2.2 + 1.4 : Math.random() * 1.5 + 0.65,
+            baseAlpha:
+              layer === 'far' ? Math.random() * 0.34 + 0.09 :
+              layer === 'mid' ? Math.random() * 0.4 + 0.2 :
+              Math.random() * 0.38 + 0.28,
+            speed: Math.random() * (layer === 'far' ? 0.35 : layer === 'mid' ? 0.5 : 0.75) + 0.08,
+            phase: Math.random() * Math.PI * 2,
+            flashFreq: Math.random() * 0.0009 + 0.00022,
+            flashPhase: Math.random() * Math.PI * 2,
+          });
+        }
+
+        for (let i = 0; i < totals.far; i++) pushStar('far');
+        for (let i = 0; i < totals.mid; i++) pushStar('mid');
+        for (let i = 0; i < totals.near; i++) pushStar('near');
+      }
+
+      function scheduleMeteor(now) {
+        if (reduced) return;
+        const delay = 1500 + Math.random() * 2700;
+        nextMeteorAt = now + delay;
+      }
+
+      function spawnMeteor(now) {
+        if (reduced || meteors.length >= 5) return;
+        const startX = Math.random() * (canvas.width * 0.78);
+        const startY = Math.random() * (canvas.height * 0.42);
+        const speed = 8.2 + Math.random() * 4.6;
+        const len = 94 + Math.random() * 90;
+        meteors.push({
+          x: startX,
+          y: startY,
+          vx: speed,
+          vy: speed * (0.42 + Math.random() * 0.22),
+          len,
+          life: 0,
+          ttl: 820 + Math.random() * 560,
+          bornAt: now,
+        });
+      }
+
+      function drawMeteor(m) {
+        const tailX = m.x - m.vx * 2.1;
+        const tailY = m.y - m.vy * 2.1;
+        const grd = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+        grd.addColorStop(0, 'rgba(255, 236, 186, 0.92)');
+        grd.addColorStop(0.55, 'rgba(255, 213, 90, 0.42)');
+        grd.addColorStop(1, 'rgba(255, 213, 90, 0)');
+        ctx.save();
+        ctx.strokeStyle = grd;
+        ctx.lineWidth = 1.7;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(m.x - m.len, m.y - m.len * 0.45);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function draw(time) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        parallaxCurrent += (parallaxTarget - parallaxCurrent) * 0.06;
+
+        stars.forEach(s => {
+          const twinkle = Math.sin(time * 0.001 * s.speed + s.phase) * 0.34 + 0.66;
+          const flash = s.kind === 'sparkle'
+            ? Math.max(0, Math.sin(time * s.flashFreq + s.flashPhase)) ** 6
+            : 0;
+          const alpha = Math.min(1, s.baseAlpha * twinkle + flash * 0.5);
+          const py = s.y + parallaxCurrent * s.parallax;
+          const wrappedY = ((py % canvas.height) + canvas.height) % canvas.height;
+
+          if (s.kind === 'sparkle') {
+            drawSparkle(s.x, wrappedY, s.radius, alpha);
+          } else {
+            ctx.beginPath();
+            ctx.arc(s.x, wrappedY, s.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(241, 245, 249, ${alpha})`;
+            ctx.fill();
+          }
+        });
+
+        if (!reduced) {
+          if (time >= nextMeteorAt) {
+            spawnMeteor(time);
+            scheduleMeteor(time);
+          }
+
+          meteors = meteors.filter(m => {
+            const elapsed = time - m.bornAt;
+            if (elapsed > m.ttl) return false;
+            m.x += m.vx;
+            m.y += m.vy;
+            drawMeteor(m);
+            return m.x < canvas.width + m.len && m.y < canvas.height + m.len;
+          });
+        }
+
+        if (!reduced) animationId = requestAnimationFrame(draw);
+      }
+
+      resize();
+      createStars();
+      scheduleMeteor(performance.now());
+
+      if (reduced) {
+        draw(0);
+      } else {
+        animationId = requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('scroll', () => {
+        parallaxTarget = Math.max(-120, Math.min(120, window.scrollY * 0.08));
+      }, { passive: true });
+
+      window.addEventListener('resize', () => {
+        resize();
+        createStars();
+      });
+    })();
+
+
+    // ---------- Scroll Reveal — Orbit's exact code ----------
+    (function initScrollReveal() {
+      const reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length) return;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -60px 0px' });
+      reveals.forEach(el => observer.observe(el));
+    })();
+
+    // ---------- Scroll fade toggle (in/out) ----------
+    (function initScrollFadeToggle() {
+      const targets = document.querySelectorAll('.scroll-fade');
+      if (!targets.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('in-view', entry.isIntersecting);
+        });
+      }, {
+        threshold: 0.35,
+        rootMargin: '-8% 0px -8% 0px'
+      });
+
+      targets.forEach((el) => observer.observe(el));
+    })();
+
+
+    // ---------- Mobile Nav — Orbit's exact pattern ----------
+    (function initMobileNav() {
+      const hamburger = document.getElementById('hamburger');
+      const nav = document.getElementById('main-nav');
+      if (!hamburger || !nav) return;
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.addEventListener('click', () => {
+        nav.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
+      });
+      nav.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+
+
+    // ---------- Smooth scroll ----------
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // ============================================================
+    // WOW EFFECT 1 — Spotlight Card
+    // cursor-following radial gold glow on skill cards
+    // ============================================================
+    (function initSpotlight() {
+      document.querySelectorAll('.skill-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--sx', (e.clientX - r.left) + 'px');
+          card.style.setProperty('--sy', (e.clientY - r.top) + 'px');
+        });
+      });
+    })();
+
+
+    // ============================================================
+    // WOW EFFECT 2 — Decrypted Text (Hero H1)
+    // scramble-reveal animation on page load
+    // ============================================================
+    (function initDecryptedText() {
+      const h1 = document.querySelector('.hero h1');
+      if (!h1) return;
+
+      // We target only the text node inside the gradient-text span
+      const span = h1.querySelector('.gradient-text');
+      if (!span) return;
+      const kicker = document.querySelector('.hero-kicker-stagger');
+      const ctaWrap = document.querySelector('.hero-cta-stagger');
+
+      const original = span.textContent;
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const duration = 1920;
+      let hasRun = false;
+      const center = (original.length - 1) / 2;
+      const revealOrder = [...Array(original.length).keys()]
+        .sort((a, b) => {
+          const da = Math.abs(a - center);
+          const db = Math.abs(b - center);
+          if (da !== db) return da - db;
+          return (Math.random() - 0.5) * 0.01;
+        });
+      const makeRandomString = (revealedCount) => {
+        const revealSet = new Set(revealOrder.slice(0, revealedCount));
+        return original.split('').map((c, i) => {
+          if (c === ' ') return ' ';
+          if (revealSet.has(i)) return c;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+      };
+
+      // Start from scrambled text so users don't see clean title before effect
+      span.textContent = makeRandomString(0);
+      if (kicker) kicker.classList.remove('show');
+      if (ctaWrap) ctaWrap.classList.remove('show');
+
+      function scrambleReveal() {
+        if (hasRun) return;
+        hasRun = true;
+        const start = performance.now();
+        const len = original.length;
+
+        function frame(now) {
+          const elapsed = now - start;
+          const t = Math.min(elapsed / duration, 1);
+          // Cinematic ease-in-out for less "techy" feel
+          const eased = t < 0.5
+            ? 4 * t * t * t
+            : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          const revealed = Math.floor(eased * len);
+          span.textContent = makeRandomString(revealed);
+
+          if (revealed < len) {
+            requestAnimationFrame(frame);
+          } else {
+            span.textContent = original;
+            setTimeout(() => {
+              if (kicker) kicker.classList.add('show');
+              if (ctaWrap) ctaWrap.classList.add('show');
+            }, 220);
+          }
+        }
+
+        requestAnimationFrame(frame);
+      }
+
+      // Trigger on page load (IntersectionObserver for hero)
+      const obs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          scrambleReveal();
+          obs.disconnect();
+        }
+      }, { threshold: 0.5 });
+      obs.observe(h1);
+    })();
+
+    // ============================================================
+    // WOW EFFECT 3 — Click Spark on CTA buttons
+    // gold sparks burst from click point on every .btn-primary
+    // ============================================================
+    (function initClickSpark() {
+      const SPARK_COLOR  = '#FFD747';
+      const SPARK_COUNT  = 10;
+      const SPARK_RADIUS = 38;
+      const SPARK_SIZE   = 7;
+      const DURATION     = 480;
+
+      function createSparkCanvas(btn) {
+        const canvas = document.createElement('canvas');
+        canvas.style.cssText = [
+          'position:absolute',
+          'top:50%',
+          'left:50%',
+          'transform:translate(-50%,-50%)',
+          'width:200px',
+          'height:200px',
+          'pointer-events:none',
+          'z-index:99',
+          'border-radius:0'
+        ].join(';');
+        canvas.width  = 200;
+        canvas.height = 200;
+
+        // Keep button overflow visible so sparks show outside
+        const wrapper = btn.closest('div, section, li') || btn.parentElement;
+        wrapper.style.position = wrapper.style.position || 'relative';
+        btn.style.position = 'relative';
+
+        btn.appendChild(canvas);
+        return canvas;
+      }
+
+      function easeOut(t) { return t * (2 - t); }
+
+      function fireSparks(canvas, cx, cy) {
+        const ctx = canvas.getContext('2d');
+        const sparks = Array.from({ length: SPARK_COUNT }, (_, i) => ({
+          angle: (2 * Math.PI * i) / SPARK_COUNT + (Math.random() - 0.5) * 0.3,
+          startTime: performance.now()
+        }));
+
+        function draw(now) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let anyAlive = false;
+
+          sparks.forEach(s => {
+            const elapsed = now - s.startTime;
+            if (elapsed >= DURATION) return;
+            anyAlive = true;
+
+            const t     = elapsed / DURATION;
+            const eased = easeOut(t);
+            const dist  = eased * SPARK_RADIUS;
+            const size  = SPARK_SIZE * (1 - eased);
+            const alpha = 1 - t;
+
+            const x1 = cx + dist * Math.cos(s.angle);
+            const y1 = cy + dist * Math.sin(s.angle);
+            const x2 = cx + (dist + size) * Math.cos(s.angle);
+            const y2 = cy + (dist + size) * Math.sin(s.angle);
+
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.strokeStyle = SPARK_COLOR;
+            ctx.lineWidth   = 2.2;
+            ctx.lineCap     = 'round';
+            ctx.shadowColor = SPARK_COLOR;
+            ctx.shadowBlur  = 6;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+            ctx.restore();
+          });
+
+          if (anyAlive) requestAnimationFrame(draw);
+          else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      document.querySelectorAll('.btn.btn-primary').forEach(btn => {
+        const canvas = createSparkCanvas(btn);
+
+        btn.addEventListener('click', e => {
+          // Click position relative to canvas center (which is btn center)
+          const bRect = btn.getBoundingClientRect();
+          const cx = (e.clientX - bRect.left) - bRect.width / 2 + 100;
+          const cy = (e.clientY - bRect.top)  - bRect.height / 2 + 100;
+          fireSparks(canvas, cx, cy);
+        });
+      });
+    })();
+
+    // ============================================================
+    // WOW EFFECT 4 — Magnet CTA (desktop only)
+    // buttons magnetically attract toward the cursor
+    // ============================================================
+    (function initMagnet() {
+      if (window.innerWidth <= 768) return;
+
+      const STRENGTH = 0.32;
+      const RADIUS   = 90;
+
+      const btns = Array.from(document.querySelectorAll('.btn.btn-primary'));
+
+      window.addEventListener('mousemove', e => {
+        btns.forEach(btn => {
+          const r  = btn.getBoundingClientRect();
+          const cx = r.left + r.width  / 2;
+          const cy = r.top  + r.height / 2;
+          const dx = e.clientX - cx;
+          const dy = e.clientY - cy;
+          const dist = Math.hypot(dx, dy);
+
+          if (dist < RADIUS) {
+            const pull = 1 - dist / RADIUS; // stronger when closer
+            btn.style.transition = 'transform 0.2s ease-out, box-shadow 0.2s ease-out';
+            btn.style.transform  = `translate(${dx * STRENGTH * pull}px, ${dy * STRENGTH * pull}px)`;
+          } else {
+            btn.style.transition = 'transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out';
+            btn.style.transform  = 'translate(0,0)';
+          }
+        });
+      }, { passive: true });
+    })();
+
+  </script>
+
+</body>
+</html>

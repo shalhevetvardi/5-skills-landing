@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crystal Pyramid — Scroll Scene</title>
+  <style>
+    :root {
+      --scroll: 0;
+      --beam-progress: 0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #060b1a;
+      overflow-x: hidden;
+      font-family: Inter, Arial, sans-serif;
+      color: #fff;
+    }
+
+    /* ── Scroll room ── */
+    .scroll-area {
+      position: relative;
+      height: 400vh;
+    }
+
+    /* ── Sticky full-viewport stage ── */
+    .sticky-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #060b1a;
+      perspective: 1200px;
+    }
+
+    /* ── Square scene container — all images must fit inside ── */
+    .scene {
+      position: relative;
+      /* largest square that fits in the viewport */
+      width:  min(100vw, 100vh);
+      height: min(100vw, 100vh);
+      transform-style: preserve-3d;
+    }
+
+    /* ── Base layer style ── */
+    .layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      /* contain keeps square images perfectly aligned */
+      object-fit: contain;
+      pointer-events: none;
+      transform-origin: center center;
+      will-change: transform, opacity, filter;
+    }
+
+    /* ── Individual layer rules ── */
+    .bg-solid  { z-index: 1; }
+
+    .bg-galaxy {
+      z-index: 2;
+      transform: translateY(calc(var(--scroll) * -40px));
+    }
+
+    .pyramid {
+      z-index: 3;
+      transform: rotateY(calc(var(--scroll) * 8deg));
+    }
+
+    .beam {
+      z-index: 4;
+      opacity: var(--beam-progress);
+      transform: translateX(calc((1 - var(--beam-progress)) * 600px));
+    }
+
+    /* glow wrapper handles scroll-based scale; img handles pulse */
+    .glow-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      transform: scale(calc(0.9 + var(--scroll) * 0.5));
+      transform-origin: center center;
+      will-change: transform;
+    }
+    .glow-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      animation: glowPulse 1.5s ease-in-out infinite;
+    }
+
+    /* CSS-generated particles */
+    .particles {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255,215,120,0.95) 0 1.5px, transparent 2px),
+        radial-gradient(circle at 35% 65%, rgba(255,215,120,0.85) 0 1.2px, transparent 1.6px),
+        radial-gradient(circle at 52% 38%, rgba(255,230,160,0.90) 0 1.5px, transparent 2px),
+        radial-gradient(circle at 68% 74%, rgba(255,215,120,0.80) 0 1.3px, transparent 1.8px),
+        radial-gradient(circle at 80% 28%, rgba(255,230,160,0.88) 0 1.5px, transparent 2px),
+        radial-gradient(circle at 25% 82%, rgba(255,215,120,0.78) 0 1.2px, transparent 1.6px),
+        radial-gradient(circle at 60% 12%, rgba(255,230,160,0.90) 0 1.5px, transparent 2px),
+        radial-gradient(circle at 88% 55%, rgba(255,215,120,0.82) 0 1.3px, transparent 1.8px);
+      background-repeat: repeat;
+      background-size: 280px 280px;
+      mix-blend-mode: screen;
+      opacity: 0.8;
+      animation: driftDown 8s linear infinite;
+    }
+
+    /* ── Hint text ── */
+    .intro {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      opacity: 0.55;
+      white-space: nowrap;
+      pointer-events: none;
+      animation: hintBob 2s ease-in-out infinite;
+    }
+
+    /* ── Keyframes ── */
+    @keyframes glowPulse {
+      0%   { transform: scale(0.82); opacity: 0.55; }
+      50%  { transform: scale(1.18); opacity: 1;    }
+      100% { transform: scale(0.82); opacity: 0.55; }
+    }
+    @keyframes driftDown {
+      0%   { transform: translateY(-3%); }
+      100% { transform: translateY(5%);  }
+    }
+    @keyframes hintBob {
+      0%, 100% { transform: translateX(-50%) translateY(0);    }
+      50%       { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    /* Fade hint out as soon as user starts scrolling */
+    .intro.hidden { opacity: 0; transition: opacity 0.5s ease; }
+  </style>
+</head>
+<body>
+
+  <section class="scroll-area">
+    <div class="sticky-stage">
+
+      <div class="scene">
+        <!-- 1. Background — stars, static -->
+        <img class="layer bg-solid"  src="./bg_solid.png"  alt="" />
+
+        <!-- 2. Galaxy — parallax upward -->
+        <img class="layer bg-galaxy" src="./bg_galaxy.png" alt="" />
+
+        <!-- 3. Pyramid — subtle 3-D Y-axis tilt -->
+        <img class="layer pyramid"   src="./pyramid.png"   alt="" />
+
+        <!-- 4. Beam — slides in from right 20%→60% scroll -->
+        <img class="layer beam"      src="./beam.png"      alt="" />
+
+        <!-- 5. Glow — scroll-scale wrapper + CSS pulse -->
+        <div class="glow-wrap">
+          <img class="glow-img" src="./glow.png" alt="" />
+        </div>
+
+        <!-- 6. Particles — CSS sparkles drifting down -->
+        <div class="particles" aria-hidden="true"></div>
+      </div>
+
+      <p class="intro" id="intro-hint">↓ Scroll to awaken the crystal ↓</p>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const root  = document.documentElement;
+      const hint  = document.getElementById('intro-hint');
+
+      const clamp01 = (v) => Math.max(0, Math.min(1, v));
+      const range   = (v, a, b) => clamp01((v - a) / (b - a));
+
+      let ticking = false;
+
+      function update() {
+        const maxScroll    = document.body.scrollHeight - window.innerHeight;
+        const sp           = maxScroll > 0 ? clamp01(window.scrollY / maxScroll) : 0;
+        const beamProgress = range(sp, 0.2, 0.6);
+
+        root.style.setProperty('--scroll',        sp.toFixed(4));
+        root.style.setProperty('--beam-progress', beamProgress.toFixed(4));
+
+        if (sp > 0.01) hint.classList.add('hidden');
+        else            hint.classList.remove('hidden');
+
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+
+</body>
+</html>
