@@ -1382,6 +1382,40 @@
       font-size: 0.92rem;
       line-height: 1.65;
     }
+    .install-alt-label {
+      margin-top: var(--md);
+      margin-bottom: var(--xs);
+      font-size: 0.85rem;
+      color: var(--dim);
+      font-weight: 600;
+    }
+    .install-snippet {
+      margin-top: var(--xs);
+      padding: var(--md);
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+    }
+    .install-snippet code {
+      display: block;
+      white-space: pre;
+      background: none;
+      padding: 0;
+      color: #e2e8f0;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      font-family: 'Space Mono', 'Courier New', monospace;
+    }
+    .install-step-note {
+      margin-top: var(--sm);
+      font-size: 0.82rem;
+      color: var(--faint);
+      line-height: 1.55;
+    }
+
     code {
       font-family: 'Space Mono', 'Courier New', monospace;
       color: var(--gold);
@@ -2001,6 +2035,10 @@
           <div>
             <h4>הורידו את קובץ ה-Skill</h4>
             <p>לחצו על כפתור ה-Download בכרטיס הרצוי.</p>
+            <p class="install-alt-label">או מהטרמינל (שומר את הקבצים בתיקייה שבה אתם נמצאים):</p>
+            <pre class="install-snippet" tabindex="0"><code>curl -fL -O "https://shalhevetvardi.github.io/5-skills-landing/god-mode-skill.md"
+curl -fL -O "https://shalhevetvardi.github.io/5-skills-landing/cia-agent-skill.md"</code></pre>
+            <p class="install-step-note">ב־Cursor / Claude Code אפשר אחר כך להעתיק את התוכן ל־<code>SKILL.md</code> בתוך תיקיית סקיל בפרויקט — ב־Claude באתר מעלים את הקובץ כמו שהוא.</p>
           </div>
         </div>
         <div class="install-step reveal reveal-delay-3">
